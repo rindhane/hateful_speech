@@ -13,9 +13,11 @@ public class sqlite_boot
         Connection connection = null;
         try {
             //create a database connection
-            connection = DriverManager.getConnection("jdbc:sqlite:C:/SOFTWARE_KIT/sqlite-tools/db/sample.db");
+            String url= "jdbc:sqlite:C:/SOFTWARE_KIT/sqlite-tools/db/sample.db";
+            connection = DriverManager.getConnection(url);
             Statement statement = connection.createStatement();
             statement.setQueryTimeout(30); 
+            statement.executeUpdate("drop table if exists person");
             statement.executeUpdate("create table person (id integer, name string)");
             statement.executeUpdate("insert into person values(1, 'leo')");
             statement.executeUpdate("insert into person values(2, 'yui')");
