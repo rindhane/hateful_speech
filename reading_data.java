@@ -1,60 +1,38 @@
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.List;
-import java.util.ArrayList;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 
 
-public class trial
+public class reading_data
 {
-    static ArrayList<String> comp_string(FileReader ar, int cols, char separator) throws Exception 
+    static ResultSet sql_retrieve(Statement statement, String dbName, String query_string) throws Exception
     {
-        int al;
-        char foo;
-        String hold_string;
-        ArrayList<String> string_set = new ArrayList<String>();
-        char test_end = separator;
-        for (int i= 0; i< cols; i++ ) 
-        {
-            hold_string="";
-            do 
-            {
-                test_end = (i<cols-1)? separator :'\n';
-                al = ar.read();
-                foo = (char) al ;
-                if (foo == test_end) 
-                {
-                    continue;
-                }else {
-                    hold_string = hold_string + Character.toString(foo);
-                }
-                
-            }while(foo != test_end);
-            string_set.add(hold_string);
-        }
-        return string_set;
-    }
+        String base = String.format("select * from %1$s  %2$s",dbName,query_string);
+        ResultSet rs = statement.executeQuery(base);
+        return rs;    
 
+    } 
 
     public static void main (String [] args) throws Exception
     {
-        String csvFile ="C:\\Java\\hateful_speech\\data.csv";
-        int no_of_cols=7;
-        char csvSplitBy = ',';
-        FileReader br =new FileReader(csvFile);
-        ArrayList<String> catch_text =null;
-        for (int i =0 ; i< 5; i++)
-        {
-            catch_text = comp_string(br,no_of_cols,csvSplitBy);
-            for (String items : catch_text)
-            {
-                System.out.print(items + '\t');
+        String dbName = "hate_data";
+        Class.forName("org.sqlite.JDBC");
+        Connection connection = null;
+        //create a database connection
+        String url= "jdbc:sqlite:C:/SOFTWARE_KIT/sqlite-tools/db/sample.db"; 
+        connection = DriverManager.getConnection(url);
+        Statement statement = connection.createStatement(); 
+        statement.setQueryTimeout(30);
+        
+        ResultSet rs= sql_retrieve(statement,dbName,"");
+        while (rs.next()){
+                //read the result set 
+                System.out.println("id ="+rs.getInt("id") + "\t"+ "tweet =" + rs.getString("tweet"));
+                System.out.println();
             }
-        }    
-        System.out.println();
-        System.out.println(catch_text.size());
-        br.close();
+        connection.close();
     }
 }

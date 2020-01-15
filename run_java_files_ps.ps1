@@ -14,6 +14,6 @@
 
 #curl https://raw.githubusercontent.com/t-davidson/hate-speech-and-offensive-language/master/data/labeled_data.csv > data.csv
 
-javac reading_data.java
-java reading_data
+#javac reading_data.java
+java reading_data.java
 
