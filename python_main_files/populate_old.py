@@ -21,16 +21,17 @@ def insert_entry(table,array):
     cursor.execute(base_string)
     con.commit()
 
-csv_file=pd.read_csv("data.csv")
-for i in range(0,len(csv_file)):
-    array_temp=list()
-    for col in csv_file.columns:
-        array_temp.append(csv_file.iloc[i][col])
-    if "'" in array_temp[-1]:
-        array_temp[-1]=array_temp[-1].replace("'","''")
-    array_temp[-1]="'"+array_temp[-1]+"'"
-    insert_entry(table_name,array_temp)
+if __name__ == "__main__" :
+    csv_file=pd.read_csv("data.csv")
+    for i in range(0,len(csv_file)):
+        array_temp=list()
+        for col in csv_file.columns:
+            array_temp.append(csv_file.iloc[i][col])
+        if "'" in array_temp[-1]:
+            array_temp[-1]=array_temp[-1].replace("'","''")
+        array_temp[-1]="'"+array_temp[-1]+"'"
+        insert_entry(table_name,array_temp)
 
-con.commit()
-con.close()
-print("sqlite_populations_done")
+    con.commit()
+    con.close()
+    print("sqlite_populations_done")
