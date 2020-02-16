@@ -54,14 +54,11 @@ ROBOTSTXT_OBEY = False
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #DOWNLOADER_MIDDLEWARES = {
 #    'TweetScraper.middlewares.TweetscraperDownloaderMiddleware': 543,
+#     'scrapy_proxy_pool.middlewares.ProxyPoolMiddleware': 610,
+#     'scrapy_proxy_pool.middlewares.BanDetectionMiddleware': 620,
 #}
-PROXY_POOL_ENABLED = True
-DOWNLOADER_MIDDLEWARES = {
-    # ...
-    'scrapy_proxy_pool.middlewares.ProxyPoolMiddleware': 610,
-    'scrapy_proxy_pool.middlewares.BanDetectionMiddleware': 620,
-    # ...
-}
+#PROXY_POOL_ENABLED = True
+
 
 
 # Enable or disable extensions
