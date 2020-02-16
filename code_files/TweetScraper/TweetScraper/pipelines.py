@@ -27,6 +27,10 @@ class TweetscraperPipeline(object):
         return item
     def close_spider(self,spider):
         self.session.close()
+    
+    def get_tweets(self):
+        for instance in self.session.query(self.Data).order_by(self.Data.id):
+            yield (instance.tweet,instance.tweet_type)
 
     class Data(Base):
             __tablename__= "tweet_data"
